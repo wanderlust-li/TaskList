@@ -1,3 +1,4 @@
+using HR.LeaveManagement.Application.Exceptions;
 using TaskList.Application.Commands;
 using TaskList.Application.DTO;
 using TaskList.Application.Exceptions;
@@ -39,10 +40,10 @@ namespace TaskList.Application.Services
         {
             var taskList = await _repository.GetByIdAsync(command.TaskListId, cancellationToken);
             if (taskList == null)
-                throw new TaskListException("Task list not found.");
+                throw new NotFoundException("Task list not found.");
             
             if (taskList.OwnerId != command.CurrentUserId && !taskList.SharedWith.Contains(command.CurrentUserId))
-                throw new TaskListException("Not authorized to add relation to this task list.");
+                throw new BadRequestException("Not authorized to add relation to this task list.");
             
             await _repository.AddSharedUserAsync(command.TaskListId, command.SharedUserId, cancellationToken);
         }
@@ -51,10 +52,10 @@ namespace TaskList.Application.Services
         {
             var taskList = await _repository.GetByIdAsync(command.TaskListId, cancellationToken);
             if (taskList == null)
-                throw new TaskListException("Task list not found.");
+                throw new NotFoundException("Task list not found.");
             
             if (taskList.OwnerId != command.CurrentUserId && !taskList.SharedWith.Contains(command.CurrentUserId))
-                throw new TaskListException("Not authorized to update this task list.");
+                throw new BadRequestException("Not authorized to update this task list.");
             
             taskList.Name = command.NewName;
             
@@ -65,10 +66,10 @@ namespace TaskList.Application.Services
         {
             var taskList = await _repository.GetByIdAsync(command.TaskListId, cancellationToken);
             if (taskList == null)
-                throw new TaskListException("Task list not found.");
+                throw new NotFoundException("Task list not found.");
             
             if (taskList.OwnerId != command.CurrentUserId)
-                throw new TaskListException("Not authorized to delete this task list. Only the owner can delete it.");
+                throw new BadRequestException("Not authorized to delete this task list. Only the owner can delete it.");
             
             await _repository.DeleteAsync(command.TaskListId, cancellationToken);
         }
@@ -112,10 +113,10 @@ namespace TaskList.Application.Services
         {
             var taskList = await _repository.GetByIdAsync(query.TaskListId, cancellationToken);
             if (taskList == null)
-                throw new TaskListException("Task list not found.");
+                throw new NotFoundException("Task list not found.");
             
             if (taskList.OwnerId != query.CurrentUserId && !taskList.SharedWith.Contains(query.CurrentUserId))
-                throw new TaskListException("Not authorized to view relations for this task list.");
+                throw new BadRequestException("Not authorized to view relations for this task list.");
             
             return taskList.SharedWith;
         }
@@ -124,10 +125,10 @@ namespace TaskList.Application.Services
         {
             var taskList = await _repository.GetByIdAsync(command.TaskListId, cancellationToken);
             if (taskList == null)
-                throw new TaskListException("Task list not found.");
+                throw new NotFoundException("Task list not found.");
             
             if (taskList.OwnerId != command.CurrentUserId && !taskList.SharedWith.Contains(command.CurrentUserId))
-                throw new TaskListException("Not authorized to remove relation from this task list.");
+                throw new BadRequestException("Not authorized to remove relation from this task list.");
             
             await _repository.RemoveSharedUserAsync(command.TaskListId, command.SharedUserId, cancellationToken);
         }
