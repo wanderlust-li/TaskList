@@ -1,6 +1,7 @@
 using System.ComponentModel.DataAnnotations;
 using MongoDB.Bson;
 using MongoDB.Bson.Serialization.Attributes;
+using TaskList.Domain.DTO;
 
 namespace TaskList.Domain.Entities;
 
@@ -24,4 +25,16 @@ public class TaskList
         
     [BsonElement("sharedWith")]
     public List<string> SharedWith { get; set; } = new List<string>();
+    
+    public TaskListDto ToDto()
+    {
+        return new TaskListDto
+        {
+            Id = this.Id,
+            Name = this.Name,
+            OwnerId = this.OwnerId,
+            CreatedDateTime = this.CreatedDateTime,
+            SharedWith = new List<string>(this.SharedWith)
+        };
+    }
 }

@@ -1,8 +1,5 @@
-using System;
-using System.Collections.Generic;
 using MongoDB.Driver;
 using TaskList.Infrastructure.Configuration;
-using TaskList.Domain.Entities;
 
 namespace TaskList.Infrastructure.DatabaseContext
 {

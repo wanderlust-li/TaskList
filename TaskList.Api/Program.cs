@@ -1,3 +1,4 @@
+using TaskList.Api.Middleware;
 using TaskList.Application;
 using TaskList.Infrastructure;
 
@@ -13,6 +14,8 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
 var app = builder.Build();
+
+app.UseExceptionHandlingMiddleware();
 
 if (app.Environment.IsDevelopment())
 {

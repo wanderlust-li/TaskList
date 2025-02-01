@@ -1,4 +1,4 @@
-namespace TaskList.Application.DTO;
+namespace TaskList.Domain.DTO;
 
 public class TaskListDto
 {
