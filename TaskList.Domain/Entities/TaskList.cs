@@ -10,13 +10,10 @@ public class TaskList
     [BsonId]
     [BsonRepresentation(BsonType.ObjectId)]
     public string Id { get; set; }
-        
-    [Required]
-    [StringLength(255, MinimumLength = 1)]
+    
     [BsonElement("name")]
     public string Name { get; set; }
-        
-    [Required]
+    
     [BsonElement("ownerId")]
     public string OwnerId { get; set; }
         
